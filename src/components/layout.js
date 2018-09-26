@@ -1,51 +1,50 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
-import { StaticQuery, graphql } from 'gatsby'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 
-import Header from './header'
-import './layout.css'
+import './layout.css';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#fbd200',
+      contrastText: '#FFF'
+    }
+  },
+});
 
 const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `}
-    render={data => (
-      <>
-        <Helmet
-          title={data.site.siteMetadata.title}
-          meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' },
-          ]}
-        >
-          <html lang="en" />
-        </Helmet>
-        <Header siteTitle={data.site.siteMetadata.title} />
-        <div
-          style={{
-            margin: '0 auto',
-            maxWidth: 960,
-            padding: '0px 1.0875rem 1.45rem',
-            paddingTop: 0,
-          }}
-        >
+  <MuiThemeProvider theme={theme}>
+    <Helmet
+      title="Macaw Interactive"
+    />
+    <CssBaseline />
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="title" color="inherit" noWrap>
+          Macaw Interactive
+        </Typography>
+      </Toolbar>
+    </AppBar>
+    <main className="layout">
+      <Grid container spacing={24}>
+        <Grid item xs={12}>
           {children}
-        </div>
-      </>
-    )}
-  />
+        </Grid>
+      </Grid>
+    </main>
+  </MuiThemeProvider>
 )
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default Layout
+export default Layout;
